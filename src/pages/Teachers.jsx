@@ -80,7 +80,7 @@ export default function Teachers() {
           <input placeholder="Цол зэрэг (degree/title)" value={form.degree} onChange={set('degree')} />
           <input type="email" placeholder="И-Мэйл" value={form.email} onChange={set('email')} />
           <input placeholder="Өрөөний дугаар (office)" value={form.office} onChange={set('office')} />
-          <input placeholder="Заадаг хичээлүүд (courses)" value={form.courses} onChange={set('courses')} />
+          <input placeholder="Заадаг хичээлүүд (courses, separated by ;)" value={form.courses} onChange={set('courses')} />
           <textarea placeholder="Товч танилцуулга (bio)" rows={3} value={form.bio} onChange={set('bio')} />
           <input type="file" accept="image/*" onChange={e => setFile(e.target.files[0])} />
           <div style={{ display: 'flex', gap: 8 }}>
@@ -95,7 +95,7 @@ export default function Teachers() {
         {teachers.map(t => (
           <div key={t.id} style={{ background: 'white', border: '1px solid #dde0ee', borderTop: '4px solid #1a0dbf', borderRadius: 10, padding: 20, textAlign: 'center' }}>
             {t.photo_url
-              ? <img src={t.photo_url} alt={t.name} style={{ width: 120, height: 120, borderRadius: '50%', objectFit: 'cover' }} />
+              ? <img src={t.photo_url} alt={t.name} style={{ width: 120, height: 120, borderRadius: '50%', objectFit: 'cover', objectPosition: 'top' }} />
               : <div style={{ width: 120, height: 120, borderRadius: '50%', background: '#eee', margin: '0 auto' }} />}
             <h3 style={{ margin: '12px 0 2px', textTransform: 'uppercase' }}>{t.name}</h3>
             <div style={{ color: '#5b5f72', marginBottom: 12 }}>{t.position}</div>
@@ -104,11 +104,18 @@ export default function Teachers() {
               {t.degree && <div style={row}><strong>Цол зэрэг</strong><span>{t.degree}</span></div>}
               {t.email && <div style={row}><strong>И-Мэйл</strong><a href={`mailto:${t.email}`}>{t.email}</a></div>}
               {t.office && <div style={row}><strong>Өрөөний дугаар</strong><span>{t.office}</span></div>}
-              {t.courses && <div style={row}><strong>Хичээлүүд</strong><span style={{ textAlign: 'right' }}>{t.courses}</span></div>}
+              {t.courses && (
+                <div style={{ padding: '8px 0', borderTop: '1px solid #eef0f8', fontSize: 13 }}>
+                  <strong>Заадаг хичээлүүд</strong>
+                  <ul style={{ margin: '6px 0 0', paddingLeft: 18 }}>
+                    {t.courses.split(';').map(c => <li key={c}>{c.trim()}</li>)}
+                  </ul>
+                </div>
+              )}
             </div>
             {t.bio && <p style={{ textAlign: 'left' }}>{t.bio}</p>}
             {isAdmin && (
-              <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
+              <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 8 }}>
                 <button onClick={() => startEdit(t)}>Edit</button>
                 <button onClick={() => handleDelete(t.id)}>Delete</button>
               </div>
