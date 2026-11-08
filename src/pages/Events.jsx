@@ -1,0 +1,111 @@
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { supabase } from '../lib/supabaseClient'
+import { useAuth } from '../lib/AuthContext'
+
+const empty = { title: '', event_date: '', description: '', cover_image_url: '' }
+
+export default function Events() {
+  const { role } = useAuth()
+  const isAdmin = role === 'admin'
+  const [events, setEvents] = useState([])
+  const [form, setForm] = useState(empty)
+  const [editingId, setEditingId] = useState(null)
+  const [file, setFile] = useState(null)
+  const [error, setError] = useState('')
+
+  async function load() {
+    const { data, error } = await supabase.from('events').select('*').order('event_date', { ascending: false })
+    if (error) setError(error.message)
+    else setEvents(data)
+  }
+  useEffect(() => { load() }, [])
+
+  const set = (key) => (e) => setForm({ ...form, [key]: e.target.value })
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    setError('')
+    let cover_image_url = form.cover_image_url
+    if (file) {
+      const path = `events/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`
+      const { error: upErr } = await supabase.storage.from('site-images').upload(path, file)
+      if (upErr) return setError(upErr.message)
+      cover_image_url = supabase.storage.from('site-images').getPublicUrl(path).data.publicUrl
+    }
+    const payload = {
+      title: form.title,
+      event_date: form.event_date || null,
+      description: form.description,
+      cover_image_url,
+    }
+    const { error } = editingId
+      ? await supabase.from('events').update(payload).eq('id', editingId)
+      : await supabase.from('events').insert(payload)
+    if (error) return setError(error.message)
+    setForm(empty); setFile(null); setEditingId(null)
+    load()
+  }
+
+  async function handleDelete(id) {
+    if (!confirm('Delete this event and its photos?')) return
+    const { error } = await supabase.from('events').delete().eq('id', id)
+    if (error) setError(error.message)
+    else load()
+  }
+
+  function startEdit(ev) {
+    setEditingId(ev.id)
+    setForm({
+      title: ev.title,
+      event_date: ev.event_date ?? '',
+      description: ev.description ?? '',
+      cover_image_url: ev.cover_image_url ?? '',
+    })
+    window.scrollTo(0, 0)
+  }
+
+  return (
+    <div style={{ padding: 24 }}>
+      <h1>Events</h1>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+
+      {isAdmin && (
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 8, maxWidth: 420, marginBottom: 24 }}>
+          <h3>{editingId ? 'Edit event' : 'Add event'}</h3>
+          <input placeholder="Title" value={form.title} onChange={set('title')} required />
+          <input type="date" value={form.event_date} onChange={set('event_date')} />
+          <textarea placeholder="Description" rows={3} value={form.description} onChange={set('description')} />
+          <input type="file" accept="image/*" onChange={e => setFile(e.target.files[0])} />
+          <div style={{ display: 'flex', gap: 8 }}>
+            <button type="submit">{editingId ? 'Update' : 'Add'}</button>
+            {editingId && <button type="button" onClick={() => { setEditingId(null); setForm(empty) }}>Cancel</button>}
+          </div>
+        </form>
+      )}
+
+      {events.length === 0 && <p>No events added yet.</p>}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16 }}>
+        {events.map(ev => (
+          <div key={ev.id} style={{ border: '1px solid #ccc', borderRadius: 8, overflow: 'hidden' }}>
+            <Link to={`/events/${ev.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+              {ev.cover_image_url
+                ? <img src={ev.cover_image_url} alt={ev.title} style={{ width: '100%', height: 160, objectFit: 'cover' }} />
+                : <div style={{ height: 160, background: '#eee' }} />}
+              <div style={{ padding: 12 }}>
+                <strong>{ev.title}</strong>
+                <div>{ev.event_date}</div>
+              </div>
+            </Link>
+            {isAdmin && (
+              <div style={{ display: 'flex', gap: 8, padding: '0 12px 12px' }}>
+                <button onClick={() => startEdit(ev)}>Edit</button>
+                <button onClick={() => handleDelete(ev.id)}>Delete</button>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}

@@ -16,6 +16,7 @@ export default function Navbar() {
       <Link to="/">Home</Link>
       <Link to="/exhibits">Exhibits</Link>
       <Link to="/teachers">Teachers</Link>
+      <Link to="/events">Events</Link>
       {user && <Link to="/exhibits/new">Add exhibit</Link>}
       <span style={{ marginLeft: 'auto' }} />
       {user ? (
