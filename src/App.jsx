@@ -1,22 +1,21 @@
-import { useEffect, useState } from 'react'
-import { supabase } from './lib/supabaseClient'
+import { Routes, Route } from 'react-router-dom'
+import { AuthProvider } from './lib/AuthContext'
+import Navbar from './components/Navbar'
+import Home from './pages/Home'
+import Exhibits from './pages/Exhibits'
+import Login from './pages/Login'
+import Register from './pages/Register'
 
 export default function App() {
-  const [categories, setCategories] = useState([])
-  const [error, setError] = useState(null)
-
-  useEffect(() => {
-    supabase.from('exhibition_categories').select('*').then(({ data, error }) => {
-      if (error) setError(error.message)
-      else setCategories(data)
-    })
-  }, [])
-
   return (
-    <div style={{ padding: 24 }}>
-      <h1>ISM Digital Museum</h1>
-      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-      <ul>{categories.map(c => <li key={c.id}>{c.name}</li>)}</ul>
-    </div>
+    <AuthProvider>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/exhibits" element={<Exhibits />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </AuthProvider>
   )
 }
