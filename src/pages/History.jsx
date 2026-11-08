@@ -49,6 +49,10 @@ export default function History() {
   return (
     <div style={{ padding: 24, maxWidth: 700 }}>
       <h1>Department History</h1>
+      <p>
+        The history of the University of Finance and Economics (UFE) and the Management
+        Information Systems department.
+      </p>
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       {isAdmin && (
@@ -78,6 +82,17 @@ export default function History() {
           )}
         </div>
       ))}
+
+      <hr style={{ margin: '32px 0 12px', border: 'none', borderTop: '1px solid #dde0ee' }} />
+      <p style={{ fontSize: 13 }}>
+        <strong>Sources:</strong>{' '}
+        <a href="https://ufe.edu.mn/en/c/28" target="_blank" rel="noreferrer">UFE official history</a>
+        {' · '}
+        <a href="https://en.wikipedia.org/wiki/University_of_Finance_and_Economics_(Mongolia)" target="_blank" rel="noreferrer">
+          Wikipedia: University of Finance and Economics (Mongolia)
+        </a>
+      </p>
     </div>
   )
 }
+
