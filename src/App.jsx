@@ -10,6 +10,8 @@ import Register from './pages/Register'
 import Teachers from './pages/Teachers'
 import Events from './pages/Events'
 import EventDetail from './pages/EventDetail'
+import History from './pages/History'
+import Timeline from './pages/Timeline'
 
 export default function App() {
   return (
@@ -26,6 +28,8 @@ export default function App() {
         <Route path="/teachers" element={<Teachers />} />
         <Route path="/events" element={<Events />} />
         <Route path="/events/:id" element={<EventDetail />} />
+        <Route path="/history" element={<History />} />
+        <Route path="/timeline" element={<Timeline />} />
       </Routes>
     </AuthProvider>
   )
