@@ -1,7 +1,6 @@
 # ISM Digital Museum
 
-Interactive digital museum for the Management Information Systems department: history, teachers,
-events with photo albums, and student projects. Built for Internet Programming, Homework 1.
+ISM Digital Museum нь Мэдээллийн Системийн Менежментийн тэнхимийн түүх, багш нарын танилцуулга, тэнхимийн өдөрлөг болон арга хэмжээний гэрэл зураг, оюутнуудын бүтээл, судалгаа, технологийн төслүүдийг нэг дор хадгалж, интерактив хэлбэрээр танилцуулах веб аппликейшн юм.
 
 **Live demo:** https://ism-digital-museum-9vas.vercel.app
 
@@ -20,3 +19,4 @@ React (Vite) + JavaScript, React Router, Supabase (Auth, PostgreSQL, Storage, RL
 ## Setup
 1. Clone the repository and run `npm install`
 2. Create a `.env` file in the project root:
+

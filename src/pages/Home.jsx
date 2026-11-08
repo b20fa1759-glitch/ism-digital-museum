@@ -14,8 +14,7 @@ export default function Home() {
     <div style={{ padding: 24 }}>
       <h1>ISM Digital Museum</h1>
       <p style={{ maxWidth: 650 }}>
-        The digital museum of the Management Information Systems department: our history, teachers,
-        events, and student projects in one interactive place.
+        ISM Digital Museum нь Мэдээллийн Системийн Менежментийн тэнхимийн түүх, багш нарын танилцуулга, тэнхимийн өдөрлөг болон арга хэмжээний гэрэл зураг, оюутнуудын бүтээл, судалгаа, технологийн төслүүдийг нэг дор хадгалж, интерактив хэлбэрээр танилцуулах веб аппликейшн юм.
       </p>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16, marginTop: 24 }}>
         {cards.map(c => (

@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
 import { useAuth } from '../lib/AuthContext'
 
-const empty = { name: '', position: '', courses: '', bio: '', photo_url: '' }
+const DEPT = 'Мэдээллийн системийн менежментийн тэнхим'
+const empty = { name: '', position: '', department: DEPT, degree: '', email: '', office: '', courses: '', bio: '', photo_url: '' }
 
 export default function Teachers() {
   const { role } = useAuth()
@@ -14,7 +15,7 @@ export default function Teachers() {
   const [error, setError] = useState('')
 
   async function load() {
-    const { data, error } = await supabase.from('teachers').select('*').order('name')
+    const { data, error } = await supabase.from('teachers').select('*').order('id')
     if (error) setError(error.message)
     else setTeachers(data)
   }
@@ -32,9 +33,13 @@ export default function Teachers() {
       if (upErr) return setError(upErr.message)
       photo_url = supabase.storage.from('site-images').getPublicUrl(path).data.publicUrl
     }
-    const payload = { name: form.name, position: form.position, courses: form.courses, bio: form.bio, photo_url }
+    const payload = {
+      name: form.name, position: form.position, department: form.department,
+      degree: form.degree || null, email: form.email || null, office: form.office || null,
+      courses: form.courses || null, bio: form.bio || null, photo_url,
+    }
     const { error } = editingId
-      ? await supabase.from('teachers').update(payload).eq('id', editingId)
+      ? await supabase.from('teachers').update(payload).eq('id', editingId).select().single()
       : await supabase.from('teachers').insert(payload)
     if (error) return setError(error.message)
     setForm(empty); setFile(null); setEditingId(null)
@@ -50,22 +55,33 @@ export default function Teachers() {
 
   function startEdit(t) {
     setEditingId(t.id)
-    setForm({ name: t.name, position: t.position ?? '', courses: t.courses ?? '', bio: t.bio ?? '', photo_url: t.photo_url ?? '' })
+    setForm({
+      name: t.name, position: t.position ?? '', department: t.department ?? DEPT,
+      degree: t.degree ?? '', email: t.email ?? '', office: t.office ?? '',
+      courses: t.courses ?? '', bio: t.bio ?? '', photo_url: t.photo_url ?? '',
+    })
     window.scrollTo(0, 0)
   }
 
+  const row = { display: 'flex', justifyContent: 'space-between', gap: 12, padding: '8px 0', borderTop: '1px solid #eef0f8', fontSize: 14 }
+
   return (
     <div style={{ padding: 24 }}>
-      <h1>Teachers</h1>
+      <h1>Багш нар · Teachers</h1>
+      <p>{DEPT}</p>
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       {isAdmin && (
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 8, maxWidth: 420, marginBottom: 24 }}>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 8, maxWidth: 440, marginBottom: 24 }}>
           <h3>{editingId ? 'Edit teacher' : 'Add teacher'}</h3>
-          <input placeholder="Name" value={form.name} onChange={set('name')} required />
-          <input placeholder="Position" value={form.position} onChange={set('position')} />
-          <input placeholder="Courses" value={form.courses} onChange={set('courses')} />
-          <textarea placeholder="Short bio" rows={3} value={form.bio} onChange={set('bio')} />
+          <input placeholder="Нэр (name)" value={form.name} onChange={set('name')} required />
+          <input placeholder="Албан тушаал (position)" value={form.position} onChange={set('position')} />
+          <input placeholder="Алба нэгж (unit)" value={form.department} onChange={set('department')} />
+          <input placeholder="Цол зэрэг (degree/title)" value={form.degree} onChange={set('degree')} />
+          <input type="email" placeholder="И-Мэйл" value={form.email} onChange={set('email')} />
+          <input placeholder="Өрөөний дугаар (office)" value={form.office} onChange={set('office')} />
+          <input placeholder="Заадаг хичээлүүд (courses)" value={form.courses} onChange={set('courses')} />
+          <textarea placeholder="Товч танилцуулга (bio)" rows={3} value={form.bio} onChange={set('bio')} />
           <input type="file" accept="image/*" onChange={e => setFile(e.target.files[0])} />
           <div style={{ display: 'flex', gap: 8 }}>
             <button type="submit">{editingId ? 'Update' : 'Add'}</button>
@@ -75,24 +91,28 @@ export default function Teachers() {
       )}
 
       {teachers.length === 0 && <p>No teachers added yet.</p>}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 16 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
         {teachers.map(t => (
-          <div key={t.id} style={{ border: '1px solid #ccc', borderRadius: 8, overflow: 'hidden' }}>
+          <div key={t.id} style={{ background: 'white', border: '1px solid #dde0ee', borderTop: '4px solid #1a0dbf', borderRadius: 10, padding: 20, textAlign: 'center' }}>
             {t.photo_url
-              ? <img src={t.photo_url} alt={t.name} style={{ width: '100%', height: 180, objectFit: 'cover' }} />
-              : <div style={{ height: 180, background: '#eee' }} />}
-            <div style={{ padding: 12 }}>
-              <strong>{t.name}</strong>
-              <div>{t.position}</div>
-              <div><em>{t.courses}</em></div>
-              <p>{t.bio}</p>
-              {isAdmin && (
-                <div style={{ display: 'flex', gap: 8 }}>
-                  <button onClick={() => startEdit(t)}>Edit</button>
-                  <button onClick={() => handleDelete(t.id)}>Delete</button>
-                </div>
-              )}
+              ? <img src={t.photo_url} alt={t.name} style={{ width: 120, height: 120, borderRadius: '50%', objectFit: 'cover' }} />
+              : <div style={{ width: 120, height: 120, borderRadius: '50%', background: '#eee', margin: '0 auto' }} />}
+            <h3 style={{ margin: '12px 0 2px', textTransform: 'uppercase' }}>{t.name}</h3>
+            <div style={{ color: '#5b5f72', marginBottom: 12 }}>{t.position}</div>
+            <div style={{ textAlign: 'left' }}>
+              {t.department && <div style={row}><strong>Алба нэгж</strong><span style={{ textAlign: 'right' }}>{t.department}</span></div>}
+              {t.degree && <div style={row}><strong>Цол зэрэг</strong><span>{t.degree}</span></div>}
+              {t.email && <div style={row}><strong>И-Мэйл</strong><a href={`mailto:${t.email}`}>{t.email}</a></div>}
+              {t.office && <div style={row}><strong>Өрөөний дугаар</strong><span>{t.office}</span></div>}
+              {t.courses && <div style={row}><strong>Хичээлүүд</strong><span style={{ textAlign: 'right' }}>{t.courses}</span></div>}
             </div>
+            {t.bio && <p style={{ textAlign: 'left' }}>{t.bio}</p>}
+            {isAdmin && (
+              <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
+                <button onClick={() => startEdit(t)}>Edit</button>
+                <button onClick={() => handleDelete(t.id)}>Delete</button>
+              </div>
+            )}
           </div>
         ))}
       </div>
