@@ -12,6 +12,7 @@ import Events from './pages/Events'
 import EventDetail from './pages/EventDetail'
 import History from './pages/History'
 import Timeline from './pages/Timeline'
+import Creators from './pages/Creators'
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
         <Route path="/events/:id" element={<EventDetail />} />
         <Route path="/history" element={<History />} />
         <Route path="/timeline" element={<Timeline />} />
+        <Route path="/creators" element={<Creators />} />
       </Routes>
     </AuthProvider>
   )

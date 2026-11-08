@@ -19,6 +19,7 @@ export default function Navbar() {
       <Link to="/events">Events</Link>
       <Link to="/history">History</Link>
       <Link to="/timeline">Time Machine</Link>
+      <Link to="/creators">Creators</Link>
       {user && <Link to="/exhibits/new">Add exhibit</Link>}
       <span style={{ marginLeft: 'auto' }} />
       {user ? (
