@@ -7,6 +7,7 @@ import ExhibitDetail from './pages/ExhibitDetail'
 import ExhibitForm from './pages/ExhibitForm'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import Teachers from './pages/Teachers'
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/exhibits/:id/edit" element={<ExhibitForm />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/teachers" element={<Teachers />} />
       </Routes>
     </AuthProvider>
   )
