@@ -3,6 +3,8 @@ import { AuthProvider } from './lib/AuthContext'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import Exhibits from './pages/Exhibits'
+import ExhibitDetail from './pages/ExhibitDetail'
+import ExhibitForm from './pages/ExhibitForm'
 import Login from './pages/Login'
 import Register from './pages/Register'
 
@@ -13,6 +15,9 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/exhibits" element={<Exhibits />} />
+        <Route path="/exhibits/new" element={<ExhibitForm />} />
+        <Route path="/exhibits/:id" element={<ExhibitDetail />} />
+        <Route path="/exhibits/:id/edit" element={<ExhibitForm />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>

@@ -15,6 +15,7 @@ export default function Navbar() {
     <nav style={{ display: 'flex', gap: 16, padding: 16, borderBottom: '1px solid #ccc' }}>
       <Link to="/">Home</Link>
       <Link to="/exhibits">Exhibits</Link>
+      {user && <Link to="/exhibits/new">Add exhibit</Link>}
       <span style={{ marginLeft: 'auto' }} />
       {user ? (
         <>
