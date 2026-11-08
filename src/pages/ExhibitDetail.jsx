@@ -21,7 +21,7 @@ export default function ExhibitDetail() {
 
   async function handleDelete() {
     if (!confirm('Delete this exhibit?')) return
-    const { error } = await supabase.from('exhibits').delete().eq('id', id)
+    const { error } = await supabase.from('exhibits').delete().eq('id', id).select().single()
     if (error) setError(error.message)
     else navigate('/exhibits')
   }

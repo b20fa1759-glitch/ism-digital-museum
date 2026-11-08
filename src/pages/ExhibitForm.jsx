@@ -69,7 +69,7 @@ export default function ExhibitForm() {
     }
 
     const { error } = isEdit
-      ? await supabase.from('exhibits').update(payload).eq('id', id)
+      ? await supabase.from('exhibits').update(payload).eq('id', id).select().single()
       : await supabase.from('exhibits').insert({ ...payload, creator_id: user.id })
 
     setSaving(false)
