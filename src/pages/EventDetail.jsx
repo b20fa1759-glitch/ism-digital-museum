@@ -16,7 +16,7 @@ export default function EventDetail() {
 
   async function load() {
     const { data: ev, error: evErr } = await supabase.from('events').select('*').eq('id', id).single()
-    if (evErr) return setError('Event not found.')
+    if (evErr) return setError('Арга хэмжээ олдсонгүй.')
     setEvent(ev)
     const { data: ph } = await supabase.from('event_photos').select('*').eq('event_id', id).order('id')
     setPhotos(ph ?? [])
@@ -42,18 +42,18 @@ export default function EventDetail() {
   }
 
   async function handleDelete(photoId) {
-    if (!confirm('Delete this photo?')) return
+    if (!confirm('Энэ зургийг устгах уу?')) return
     const { error } = await supabase.from('event_photos').delete().eq('id', photoId)
     if (error) setError(error.message)
     else load()
   }
 
   if (error && !event) return <p style={{ padding: 24, color: 'red' }}>{error}</p>
-  if (!event) return <p style={{ padding: 24 }}>Loading...</p>
+  if (!event) return <p style={{ padding: 24 }}>Ачаалж байна...</p>
 
   return (
     <div style={{ padding: 24 }}>
-      <Link to="/events">← Back to events</Link>
+      <Link to="/events">← Арга хэмжээ рүү буцах</Link>
       <h1>{event.title}</h1>
       <p><strong>{event.event_date}</strong></p>
       <p>{event.description}</p>
@@ -61,21 +61,21 @@ export default function EventDetail() {
 
       {isAdmin && (
         <form onSubmit={handleUpload} style={{ display: 'flex', flexDirection: 'column', gap: 8, maxWidth: 420, margin: '16px 0' }}>
-          <h3>Add photos</h3>
+          <h3>Зураг нэмэх</h3>
           <input type="file" accept="image/*" multiple onChange={e => setFiles([...e.target.files])} />
-          <input placeholder="Caption (applies to all selected photos)" value={caption} onChange={e => setCaption(e.target.value)} />
-          <button type="submit" disabled={uploading}>{uploading ? 'Uploading...' : 'Upload'}</button>
+          <input placeholder="Тайлбар (сонгосон бүх зурагт хамаарна)" value={caption} onChange={e => setCaption(e.target.value)} />
+          <button type="submit" disabled={uploading}>{uploading ? 'Байршуулж байна...' : 'Байршуулах'}</button>
         </form>
       )}
 
-      <h2>Photo album</h2>
-      {photos.length === 0 && <p>No photos in this album yet.</p>}
+      <h2>Фото албум</h2>
+      {photos.length === 0 && <p>Энэ албомд зураг алга байна.</p>}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 16 }}>
         {photos.map(p => (
           <figure key={p.id} style={{ margin: 0 }}>
-            <img src={p.image_url} alt={p.caption || 'event photo'} style={{ width: '100%', height: 180, objectFit: 'cover', borderRadius: 8 }} />
+            <img src={p.image_url} alt={p.caption || 'арга хэмжээний зураг'} style={{ width: '100%', height: 180, objectFit: 'cover', borderRadius: 8 }} />
             {p.caption && <figcaption>{p.caption}</figcaption>}
-            {isAdmin && <button onClick={() => handleDelete(p.id)}>Delete</button>}
+            {isAdmin && <button onClick={() => handleDelete(p.id)}>Устгах</button>}
           </figure>
         ))}
       </div>

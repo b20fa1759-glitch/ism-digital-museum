@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabaseClient'
 
 const TYPES = {
-  milestone: { label: 'History', color: '#1a0dbf' },
-  event: { label: 'Events', color: '#d97706' },
-  exhibit: { label: 'Exhibits', color: '#059669' },
+  milestone: { label: 'Түүх', color: '#1a0dbf' },
+  event: { label: 'Арга хэмжээ', color: '#d97706' },
+  exhibit: { label: 'Үзмэрүүд', color: '#059669' },
 }
 
 export default function Timeline() {
@@ -62,10 +62,10 @@ export default function Timeline() {
 
   return (
     <div style={{ padding: 24, maxWidth: 800, margin: '0 auto' }}>
-      <h1>ISM Time Machine</h1>
-      <p>Travel through the history of the department: milestones, events and student exhibits.</p>
+      <h1>ISM Цаг хугацааны машин</h1>
+      <p>Тэнхимийн түүхээр аялаарай: түүхэн үйл явдал, арга хэмжээ, оюутнуудын үзмэрүүд.</p>
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      {loading && <p>Loading...</p>}
+      {loading && <p>Ачаалж байна...</p>}
 
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', margin: '16px 0' }}>
         {Object.entries(TYPES).map(([key, t]) => (
@@ -81,18 +81,18 @@ export default function Timeline() {
 
       {items.length > 0 && minYear < maxYear && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 24 }}>
-          <label>From year: <strong>{fromYear}</strong>
+          <label>Эхлэх он: <strong>{fromYear}</strong>
             <input type="range" min={minYear} max={maxYear} value={fromYear}
               onChange={e => setFromYear(Math.min(Number(e.target.value), toYear))} style={{ width: '100%' }} />
           </label>
-          <label>To year: <strong>{toYear}</strong>
+          <label>Дуусах он: <strong>{toYear}</strong>
             <input type="range" min={minYear} max={maxYear} value={toYear}
               onChange={e => setToYear(Math.max(Number(e.target.value), fromYear))} style={{ width: '100%' }} />
           </label>
         </div>
       )}
 
-      {!loading && visible.length === 0 && <p>Nothing found for these filters.</p>}
+      {!loading && visible.length === 0 && <p>Энэ шүүлтүүрт тохирох зүйл олдсонгүй.</p>}
 
       <div style={{ borderLeft: '3px solid #ccc', marginLeft: 12 }}>
         {visible.map(item => {
@@ -112,7 +112,7 @@ export default function Timeline() {
                 <div>
                   {item.image && <img src={item.image} alt={item.title} style={{ maxWidth: '100%', maxHeight: 220, borderRadius: 8 }} />}
                   <p>{item.description}</p>
-                  {item.link && <Link to={item.link}>Open details →</Link>}
+                  {item.link && <Link to={item.link}>Дэлгэрэнгүй үзэх →</Link>}
                 </div>
               )}
             </div>

@@ -48,7 +48,7 @@ export default function Events() {
   }
 
   async function handleDelete(id) {
-    if (!confirm('Delete this event and its photos?')) return
+    if (!confirm('Энэ арга хэмжээ болон зургуудыг устгах уу?')) return
     const { error } = await supabase.from('events').delete().eq('id', id)
     if (error) setError(error.message)
     else load()
@@ -67,24 +67,24 @@ export default function Events() {
 
   return (
     <div style={{ padding: 24 }}>
-      <h1>Events</h1>
+      <h1>Арга хэмжээ</h1>
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       {isAdmin && (
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 8, maxWidth: 420, marginBottom: 24 }}>
-          <h3>{editingId ? 'Edit event' : 'Add event'}</h3>
-          <input placeholder="Title" value={form.title} onChange={set('title')} required />
+          <h3>{editingId ? 'Арга хэмжээ засах' : 'Арга хэмжээ нэмэх'}</h3>
+          <input placeholder="Гарчиг" value={form.title} onChange={set('title')} required />
           <input type="date" value={form.event_date} onChange={set('event_date')} />
-          <textarea placeholder="Description" rows={3} value={form.description} onChange={set('description')} />
+          <textarea placeholder="Тайлбар" rows={3} value={form.description} onChange={set('description')} />
           <input type="file" accept="image/*" onChange={e => setFile(e.target.files[0])} />
           <div style={{ display: 'flex', gap: 8 }}>
-            <button type="submit">{editingId ? 'Update' : 'Add'}</button>
-            {editingId && <button type="button" onClick={() => { setEditingId(null); setForm(empty) }}>Cancel</button>}
+            <button type="submit">{editingId ? 'Хадгалах' : 'Нэмэх'}</button>
+            {editingId && <button type="button" onClick={() => { setEditingId(null); setForm(empty) }}>Болих</button>}
           </div>
         </form>
       )}
 
-      {events.length === 0 && <p>No events added yet.</p>}
+      {events.length === 0 && <p>Одоогоор арга хэмжээ нэмэгдээгүй байна.</p>}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16 }}>
         {events.map(ev => (
           <div key={ev.id} style={{ border: '1px solid #ccc', borderRadius: 8, overflow: 'hidden' }}>
@@ -99,8 +99,8 @@ export default function Events() {
             </Link>
             {isAdmin && (
               <div style={{ display: 'flex', gap: 8, padding: '0 12px 12px' }}>
-                <button onClick={() => startEdit(ev)}>Edit</button>
-                <button onClick={() => handleDelete(ev.id)}>Delete</button>
+                <button onClick={() => startEdit(ev)}>Засах</button>
+                <button onClick={() => handleDelete(ev.id)}>Устгах</button>
               </div>
             )}
           </div>

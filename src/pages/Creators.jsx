@@ -29,17 +29,17 @@ export default function Creators() {
 
   return (
     <div style={{ padding: 24 }}>
-      <h1>ISM Creators</h1>
-      <p>Students and the works they have added to the museum.</p>
+      <h1>ISM Бүтээгчид</h1>
+      <p>Музейд ажлаа нэмсэн оюутнууд болон тэдний бүтээлүүд.</p>
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      {loading && <p>Loading...</p>}
-      {!loading && creators.length === 0 && <p>No creators have published works yet.</p>}
+      {loading && <p>Ачаалж байна...</p>}
+      {!loading && creators.length === 0 && <p>Одоогоор нийтэлсэн бүтээл алга.</p>}
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
         {creators.map(c => (
           <div key={c.id} style={{ border: '1px solid #ccc', borderRadius: 8, padding: 16 }}>
             <h3 style={{ marginTop: 0 }}>{c.display_name}</h3>
-            <p>{c.works.length} work{c.works.length > 1 ? 's' : ''}</p>
+            <p>{c.works.length} бүтээл</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {c.works.map(w => (
                 <Link key={w.id} to={`/exhibits/${w.id}`}

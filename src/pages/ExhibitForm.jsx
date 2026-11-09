@@ -79,25 +79,25 @@ export default function ExhibitForm() {
 
   return (
     <div style={{ padding: 24, maxWidth: 480 }}>
-      <h1>{isEdit ? 'Edit exhibit' : 'Add exhibit'}</h1>
+      <h1>{isEdit ? 'Үзмэр засах' : 'Үзмэр нэмэх'}</h1>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <input placeholder="Title" value={form.title} onChange={set('title')} required />
-        <textarea placeholder="Description" rows={4} value={form.description} onChange={set('description')} />
+        <input placeholder="Гарчиг" value={form.title} onChange={set('title')} required />
+        <textarea placeholder="Тайлбар" rows={4} value={form.description} onChange={set('description')} />
         <select value={form.category_id} onChange={set('category_id')}>
-          <option value="">Select category</option>
+          <option value="">Ангилал сонгох</option>
           {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
         </select>
-        <input placeholder="Technologies (comma separated: React, Supabase)" value={form.technology_stack} onChange={set('technology_stack')} />
-        <input type="number" placeholder="Year created" value={form.year_created} onChange={set('year_created')} />
-        <input placeholder="Demo URL" value={form.demo_url} onChange={set('demo_url')} />
-        <input placeholder="GitHub URL" value={form.github_url} onChange={set('github_url')} />
+        <input placeholder="Технологи (таслалаар тусгаарла: React, Supabase)" value={form.technology_stack} onChange={set('technology_stack')} />
+        <input type="number" placeholder="Бүтээсэн он" value={form.year_created} onChange={set('year_created')} />
+        <input placeholder="Демо холбоос" value={form.demo_url} onChange={set('demo_url')} />
+        <input placeholder="GitHub холбоос" value={form.github_url} onChange={set('github_url')} />
         <select value={form.status} onChange={set('status')}>
-          <option value="published">Published</option>
-          <option value="draft">Draft</option>
+          <option value="published">Нийтлэгдсэн</option>
+          <option value="draft">Ноорог</option>
         </select>
         {form.image_url && <img src={form.image_url} alt="current" style={{ maxWidth: 200 }} />}
         <input type="file" accept="image/*" onChange={e => setFile(e.target.files[0])} />
-        <button type="submit" disabled={saving}>{saving ? 'Saving...' : 'Save'}</button>
+        <button type="submit" disabled={saving}>{saving ? 'Хадгалж байна...' : 'Хадгалах'}</button>
         {error && <p style={{ color: 'red' }}>{error}</p>}
       </form>
     </div>

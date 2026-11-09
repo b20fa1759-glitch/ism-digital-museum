@@ -47,7 +47,7 @@ export default function Teachers() {
   }
 
   async function handleDelete(id) {
-    if (!confirm('Delete this teacher?')) return
+    if (!confirm('Энэ багшийг устгах уу?')) return
     const { error } = await supabase.from('teachers').delete().eq('id', id)
     if (error) setError(error.message)
     else load()
@@ -67,30 +67,30 @@ export default function Teachers() {
 
   return (
     <div style={{ padding: 24 }}>
-      <h1>Багш нар · Teachers</h1>
+      <h1>Багш нар</h1>
       <p>{DEPT}</p>
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       {isAdmin && (
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 8, maxWidth: 440, marginBottom: 24 }}>
-          <h3>{editingId ? 'Edit teacher' : 'Add teacher'}</h3>
-          <input placeholder="Нэр (name)" value={form.name} onChange={set('name')} required />
-          <input placeholder="Албан тушаал (position)" value={form.position} onChange={set('position')} />
-          <input placeholder="Алба нэгж (unit)" value={form.department} onChange={set('department')} />
-          <input placeholder="Цол зэрэг (degree/title)" value={form.degree} onChange={set('degree')} />
+          <h3>{editingId ? 'Багш засах' : 'Багш нэмэх'}</h3>
+          <input placeholder="Нэр" value={form.name} onChange={set('name')} required />
+          <input placeholder="Албан тушаал" value={form.position} onChange={set('position')} />
+          <input placeholder="Алба нэгж" value={form.department} onChange={set('department')} />
+          <input placeholder="Цол зэрэг" value={form.degree} onChange={set('degree')} />
           <input type="email" placeholder="И-Мэйл" value={form.email} onChange={set('email')} />
-          <input placeholder="Өрөөний дугаар (office)" value={form.office} onChange={set('office')} />
-          <input placeholder="Заадаг хичээлүүд (courses, separated by ;)" value={form.courses} onChange={set('courses')} />
-          <textarea placeholder="Товч танилцуулга (bio)" rows={3} value={form.bio} onChange={set('bio')} />
+          <input placeholder="Өрөөний дугаар" value={form.office} onChange={set('office')} />
+          <input placeholder="Заадаг хичээлүүд (; тэмдгээр тусгаарла)" value={form.courses} onChange={set('courses')} />
+          <textarea placeholder="Товч танилцуулга" rows={3} value={form.bio} onChange={set('bio')} />
           <input type="file" accept="image/*" onChange={e => setFile(e.target.files[0])} />
           <div style={{ display: 'flex', gap: 8 }}>
-            <button type="submit">{editingId ? 'Update' : 'Add'}</button>
-            {editingId && <button type="button" onClick={() => { setEditingId(null); setForm(empty) }}>Cancel</button>}
+            <button type="submit">{editingId ? 'Хадгалах' : 'Нэмэх'}</button>
+            {editingId && <button type="button" onClick={() => { setEditingId(null); setForm(empty) }}>Болих</button>}
           </div>
         </form>
       )}
 
-      {teachers.length === 0 && <p>No teachers added yet.</p>}
+      {teachers.length === 0 && <p>Одоогоор багш нэмэгдээгүй байна.</p>}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
         {teachers.map(t => (
           <div key={t.id} style={{ background: 'white', border: '1px solid #dde0ee', borderTop: '4px solid #1a0dbf', borderRadius: 10, padding: 20, textAlign: 'center' }}>
@@ -116,8 +116,8 @@ export default function Teachers() {
             {t.bio && <p style={{ textAlign: 'left' }}>{t.bio}</p>}
             {isAdmin && (
               <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 8 }}>
-                <button onClick={() => startEdit(t)}>Edit</button>
-                <button onClick={() => handleDelete(t.id)}>Delete</button>
+                <button onClick={() => startEdit(t)}>Засах</button>
+                <button onClick={() => handleDelete(t.id)}>Устгах</button>
               </div>
             )}
           </div>

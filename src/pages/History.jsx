@@ -34,7 +34,7 @@ export default function History() {
   }
 
   async function handleDelete(id) {
-    if (!confirm('Delete this milestone?')) return
+    if (!confirm('Энэ үйл явдлыг устгах уу?')) return
     const { error } = await supabase.from('history_milestones').delete().eq('id', id)
     if (error) setError(error.message)
     else load()
@@ -48,27 +48,27 @@ export default function History() {
 
   return (
     <div style={{ padding: 24, maxWidth: 700 }}>
-      <h1>Department History</h1>
+      <h1>Тэнхимийн түүх</h1>
       <p>
-        The history of the University of Finance and Economics (UFE) and the Management
-        Information Systems department.
+        Санхүү эдийн засгийн их сургууль (СЭЗИС) болон Мэдээллийн системийн
+        менежментийн тэнхимийн түүхэн замнал.
       </p>
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       {isAdmin && (
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 24 }}>
-          <h3>{editingId ? 'Edit milestone' : 'Add milestone'}</h3>
-          <input type="number" placeholder="Year" value={form.year} onChange={set('year')} required />
-          <input placeholder="Title" value={form.title} onChange={set('title')} required />
-          <textarea placeholder="Description" rows={3} value={form.description} onChange={set('description')} />
+          <h3>{editingId ? 'Үйл явдал засах' : 'Үйл явдал нэмэх'}</h3>
+          <input type="number" placeholder="Он" value={form.year} onChange={set('year')} required />
+          <input placeholder="Гарчиг" value={form.title} onChange={set('title')} required />
+          <textarea placeholder="Тайлбар" rows={3} value={form.description} onChange={set('description')} />
           <div style={{ display: 'flex', gap: 8 }}>
-            <button type="submit">{editingId ? 'Update' : 'Add'}</button>
-            {editingId && <button type="button" onClick={() => { setEditingId(null); setForm(empty) }}>Cancel</button>}
+            <button type="submit">{editingId ? 'Хадгалах' : 'Нэмэх'}</button>
+            {editingId && <button type="button" onClick={() => { setEditingId(null); setForm(empty) }}>Болих</button>}
           </div>
         </form>
       )}
 
-      {items.length === 0 && <p>No milestones yet.</p>}
+      {items.length === 0 && <p>Одоогоор мэдээлэл алга.</p>}
       {items.map(m => (
         <div key={m.id} style={{ borderLeft: '4px solid #1a0dbf', paddingLeft: 16, marginBottom: 20 }}>
           <strong style={{ fontSize: 20 }}>{m.year}</strong>
@@ -76,8 +76,8 @@ export default function History() {
           <p>{m.description}</p>
           {isAdmin && (
             <div style={{ display: 'flex', gap: 8 }}>
-              <button onClick={() => startEdit(m)}>Edit</button>
-              <button onClick={() => handleDelete(m.id)}>Delete</button>
+              <button onClick={() => startEdit(m)}>Засах</button>
+              <button onClick={() => handleDelete(m.id)}>Устгах</button>
             </div>
           )}
         </div>
@@ -85,8 +85,8 @@ export default function History() {
 
       <hr style={{ margin: '32px 0 12px', border: 'none', borderTop: '1px solid #dde0ee' }} />
       <p style={{ fontSize: 13 }}>
-        <strong>Sources:</strong>{' '}
-        <a href="https://ufe.edu.mn/en/c/28" target="_blank" rel="noreferrer">UFE official history</a>
+        <strong>Эх сурвалж:</strong>{' '}
+        <a href="https://ufe.edu.mn/en/c/28" target="_blank" rel="noreferrer">СЭЗИС-ийн албан ёсны түүх</a>
         {' · '}
         <a href="https://en.wikipedia.org/wiki/University_of_Finance_and_Economics_(Mongolia)" target="_blank" rel="noreferrer">
           Wikipedia: University of Finance and Economics (Mongolia)

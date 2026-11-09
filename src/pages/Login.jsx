@@ -18,11 +18,11 @@ export default function Login() {
 
   return (
     <div style={{ padding: 24, maxWidth: 360 }}>
-      <h1>Login</h1>
+      <h1>Нэвтрэх</h1>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required />
-        <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required />
-        <button type="submit">Login</button>
+        <input type="email" placeholder="И-мэйл" value={email} onChange={e => setEmail(e.target.value)} required />
+        <input type="password" placeholder="Нууц үг" value={password} onChange={e => setPassword(e.target.value)} required />
+        <button type="submit">Нэвтрэх</button>
         {error && <p style={{ color: 'red' }}>{error}</p>}
       </form>
     </div>

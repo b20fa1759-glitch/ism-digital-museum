@@ -1,20 +1,20 @@
 import { Link } from 'react-router-dom'
 
 const cards = [
-  { to: '/exhibits', title: 'Exhibits', text: 'Browse student projects by category, year and technology.' },
-  { to: '/teachers', title: 'Teachers', text: 'Meet the department faculty.' },
-  { to: '/events', title: 'Events', text: 'Photo albums from department events.' },
-  { to: '/timeline', title: 'Time Machine', text: 'Travel through the history of the department.' },
-  { to: '/creators', title: 'Creators', text: 'Students and the works they created.' },
-  { to: '/history', title: 'History', text: 'Milestones in the department story.' },
+  { to: '/exhibits', title: 'Үзмэрүүд', text: 'Оюутнуудын төслүүдийг ангилал, он, технологиор нь хайж үзээрэй.' },
+  { to: '/teachers', title: 'Багш нар', text: 'Тэнхимийн багш нартай танилцаарай.' },
+  { to: '/events', title: 'Арга хэмжээ', text: 'Тэнхимийн өдөрлөг, арга хэмжээний фото албум.' },
+  { to: '/timeline', title: 'Цаг хугацааны машин', text: 'Тэнхимийн түүхээр цаг хугацаагаар аялаарай.' },
+  { to: '/creators', title: 'Бүтээгчид', text: 'Оюутнууд болон тэдний бүтээсэн ажлууд.' },
+  { to: '/history', title: 'Түүх', text: 'Тэнхимийн түүхэн үйл явдлууд.' },
 ]
 
 export default function Home() {
   return (
     <div style={{ padding: 24 }}>
-      <h1>ISM Digital Museum</h1>
+      <h1>ISM Дижитал музей</h1>
       <p style={{ maxWidth: 650 }}>
-        ISM Digital Museum нь Мэдээллийн Системийн Менежментийн тэнхимийн түүх, багш нарын танилцуулга, тэнхимийн өдөрлөг болон арга хэмжээний гэрэл зураг, оюутнуудын бүтээл, судалгаа, технологийн төслүүдийг нэг дор хадгалж, интерактив хэлбэрээр танилцуулах веб аппликейшн юм.
+        ISM Дижитал музей нь Мэдээллийн Системийн Менежментийн тэнхимийн түүх, багш нарын танилцуулга, тэнхимийн өдөрлөг болон арга хэмжээний гэрэл зураг, оюутнуудын бүтээл, судалгаа, технологийн төслүүдийг нэг дор хадгалж, интерактив хэлбэрээр танилцуулах веб аппликейшн юм.
       </p>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16, marginTop: 24 }}>
         {cards.map(c => (

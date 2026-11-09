@@ -36,20 +36,20 @@ export default function Exhibits() {
 
   return (
     <div style={{ padding: 24 }}>
-      <h1>Exhibits</h1>
+      <h1>Үзмэрүүд</h1>
       <div style={{ display: 'flex', gap: 12, marginBottom: 16, flexWrap: 'wrap' }}>
-        <input placeholder="Search by title..." value={search} onChange={e => setSearch(e.target.value)} />
+        <input placeholder="Нэрээр хайх..." value={search} onChange={e => setSearch(e.target.value)} />
         <select value={category} onChange={e => setCategory(e.target.value)}>
-          <option value="">All categories</option>
+          <option value="">Бүх ангилал</option>
           {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
         </select>
-        <input type="number" placeholder="Year" value={year} onChange={e => setYear(e.target.value)} style={{ width: 90 }} />
-        <input placeholder="Technology (e.g. React)" value={tech} onChange={e => setTech(e.target.value)} />
+        <input type="number" placeholder="Он" value={year} onChange={e => setYear(e.target.value)} style={{ width: 90 }} />
+        <input placeholder="Технологи (жишээ нь React)" value={tech} onChange={e => setTech(e.target.value)} />
       </div>
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      {loading && <p>Loading...</p>}
-      {!loading && exhibits.length === 0 && <p>No exhibits found. Try a different search or filter.</p>}
+      {loading && <p>Ачаалж байна...</p>}
+      {!loading && exhibits.length === 0 && <p>Үзмэр олдсонгүй. Өөр хайлт эсвэл шүүлтүүр туршаад үзээрэй.</p>}
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 16 }}>
         {exhibits.map(ex => (

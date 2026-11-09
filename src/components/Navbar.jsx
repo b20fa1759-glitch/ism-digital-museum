@@ -13,24 +13,24 @@ export default function Navbar() {
 
   return (
     <nav style={{ display: 'flex', gap: 16, padding: 16, borderBottom: '1px solid #ccc' }}>
-      <Link to="/">Home</Link>
-      <Link to="/exhibits">Exhibits</Link>
-      <Link to="/teachers">Teachers</Link>
-      <Link to="/events">Events</Link>
-      <Link to="/history">History</Link>
-      <Link to="/timeline">Time Machine</Link>
-      <Link to="/creators">Creators</Link>
-      {user && <Link to="/exhibits/new">Add exhibit</Link>}
+      <Link to="/">Нүүр</Link>
+      <Link to="/exhibits">Үзмэрүүд</Link>
+      <Link to="/teachers">Багш нар</Link>
+      <Link to="/events">Арга хэмжээ</Link>
+      <Link to="/history">Түүх</Link>
+      <Link to="/timeline">Цаг хугацааны машин</Link>
+      <Link to="/creators">Бүтээгчид</Link>
+      {user && <Link to="/exhibits/new">Үзмэр нэмэх</Link>}
       <span style={{ marginLeft: 'auto' }} />
       {user ? (
         <>
           <span>{user.email}</span>
-          <button onClick={handleLogout}>Logout</button>
+          <button onClick={handleLogout}>Гарах</button>
         </>
       ) : (
         <>
-          <Link to="/login">Login</Link>
-          <Link to="/register">Register</Link>
+          <Link to="/login">Нэвтрэх</Link>
+          <Link to="/register">Бүртгүүлэх</Link>
         </>
       )}
     </nav>
