@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './lib/AuthContext'
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 import Home from './pages/Home'
 import Exhibits from './pages/Exhibits'
 import ExhibitDetail from './pages/ExhibitDetail'
@@ -33,6 +34,7 @@ export default function App() {
         <Route path="/timeline" element={<Timeline />} />
         <Route path="/creators" element={<Creators />} />
       </Routes>
+      <Footer />
     </AuthProvider>
   )
 }

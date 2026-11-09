@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabaseClient'
 import { useAuth } from '../lib/AuthContext'
+import Cover from '../components/Cover'
 
 export default function ExhibitDetail() {
   const { id } = useParams()
@@ -35,7 +36,9 @@ export default function ExhibitDetail() {
     <div style={{ padding: 24, maxWidth: 700 }}>
       <Link to="/exhibits">← Үзмэрүүд рүү буцах</Link>
       <h1>{ex.title}</h1>
-      {ex.image_url && <img src={ex.image_url} alt={ex.title} style={{ maxWidth: '100%', borderRadius: 8 }} />}
+      {ex.image_url
+        ? <img src={ex.image_url} alt={ex.title} style={{ maxWidth: '100%', borderRadius: 8 }} />
+        : <div style={{ borderRadius: 8, overflow: 'hidden' }}><Cover title={ex.title} height={220} /></div>}
       <p>{ex.description}</p>
       <p><strong>Ангилал:</strong> {ex.exhibition_categories?.name ?? '-'}</p>
       <p><strong>Он:</strong> {ex.year_created ?? '-'}</p>

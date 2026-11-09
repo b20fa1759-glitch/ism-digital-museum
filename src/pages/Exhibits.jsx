@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabaseClient'
+import Cover from '../components/Cover'
 
 export default function Exhibits() {
   const [exhibits, setExhibits] = useState([])
@@ -53,11 +54,11 @@ export default function Exhibits() {
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 16 }}>
         {exhibits.map(ex => (
-          <Link key={ex.id} to={`/exhibits/${ex.id}`}
+          <Link key={ex.id} to={`/exhibits/${ex.id}`} className="lift"
                 style={{ border: '1px solid #ccc', borderRadius: 8, overflow: 'hidden', textDecoration: 'none', color: 'inherit' }}>
             {ex.image_url
               ? <img src={ex.image_url} alt={ex.title} style={{ width: '100%', height: 150, objectFit: 'cover' }} />
-              : <div style={{ height: 150, background: '#eee' }} />}
+              : <Cover title={ex.title} height={150} />}
             <div style={{ padding: 12 }}>
               <strong>{ex.title}</strong>
               <div>{ex.exhibition_categories?.name} {ex.year_created && `· ${ex.year_created}`}</div>

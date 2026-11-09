@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabaseClient'
+import Cover from '../components/Cover'
 
 export default function Creators() {
   const [creators, setCreators] = useState([])
@@ -46,7 +47,7 @@ export default function Creators() {
                       style={{ display: 'flex', gap: 8, alignItems: 'center', textDecoration: 'none', color: 'inherit' }}>
                   {w.image_url
                     ? <img src={w.image_url} alt={w.title} style={{ width: 48, height: 48, objectFit: 'cover', borderRadius: 4 }} />
-                    : <div style={{ width: 48, height: 48, background: '#eee', borderRadius: 4 }} />}
+                    : <Cover title={w.title} height={48} small />}
                   <span>{w.title} {w.year_created && `(${w.year_created})`}</span>
                 </Link>
               ))}

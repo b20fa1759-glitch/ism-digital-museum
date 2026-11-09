@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabaseClient'
 import { useAuth } from '../lib/AuthContext'
+import Cover from '../components/Cover'
 
 const empty = { title: '', event_date: '', description: '', cover_image_url: '' }
 
@@ -87,11 +88,11 @@ export default function Events() {
       {events.length === 0 && <p>Одоогоор арга хэмжээ нэмэгдээгүй байна.</p>}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16 }}>
         {events.map(ev => (
-          <div key={ev.id} style={{ border: '1px solid #ccc', borderRadius: 8, overflow: 'hidden' }}>
+          <div key={ev.id} className="lift" style={{ border: '1px solid #ccc', borderRadius: 8, overflow: 'hidden' }}>
             <Link to={`/events/${ev.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
               {ev.cover_image_url
                 ? <img src={ev.cover_image_url} alt={ev.title} style={{ width: '100%', height: 160, objectFit: 'cover' }} />
-                : <div style={{ height: 160, background: '#eee' }} />}
+                : <Cover title={ev.title} height={160} />}
               <div style={{ padding: 12 }}>
                 <strong>{ev.title}</strong>
                 <div>{ev.event_date}</div>
